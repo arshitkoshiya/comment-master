@@ -1,0 +1,30 @@
+.card {
+  border: 2px solid black;
+  border-radius: 5px;
+  width: 80%;
+  padding: 5px;
+  margin-left: 5%;
+  margin-top: 1%;
+}
+h4 {
+  text-align: left;
+  padding-left: 10px;
+}
+.comment {
+  text-align: left;
+}
+.buttons {
+  text-align: left;
+}
+.buttons:hover {
+  cursor: pointer;
+  color: blue;
+}
+.replycard {
+    border: 2px solid black;
+    border-radius: 5px;
+    width: 70%;
+    padding: 5px;
+    margin-left: 15%;
+    margin-top: 1%;
+  }

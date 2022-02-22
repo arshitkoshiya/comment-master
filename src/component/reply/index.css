@@ -1,0 +1,22 @@
+.replycard {
+  border: 2px solid black;
+  border-radius: 5px;
+  width: 80%;
+  padding: 5px;
+  margin-left: 15%;
+  margin-top: 1%;
+}
+h4 {
+  text-align: left;
+  padding-left: 10px;
+}
+.comment {
+  text-align: left;
+}
+.button {
+  text-align: left;
+}
+.button:hover {
+  cursor: pointer;
+  color: rgb(192, 0, 10);
+}

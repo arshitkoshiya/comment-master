@@ -1,0 +1,21 @@
+.Header {
+  background-color: skyblue;
+  font-size: 40px;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+.title {
+  width: 100vw;
+}
+#btn {
+  background-color: blue;
+  color: white;
+  border-radius: 5px;
+  float: right;
+  height: auto;
+  padding: 10px;
+cursor: pointer;
+}
