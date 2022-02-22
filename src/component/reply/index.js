@@ -48,7 +48,7 @@ export default function Reply(props) {
                   <span className="like">Like </span>
                 )}
                 <span className="edit">Edit </span>
-                <span className="reply">Reply </span>
+    
                 <span className="Delete" onClick={() => replyDelete(comment.id)}>
                   Delete
                 </span>
