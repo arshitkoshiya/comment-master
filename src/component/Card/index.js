@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
 import axios from "axios";
-import Reply from '../reply'
+import Reply from "../reply";
+import Popup from "../Popup";
 
 export default function Card() {
+  const [show, setShow] = useState(false);
   const [data, setData] = useState([]);
+  const [replyid, setreplyId] = useState();
+  const [title, setTitle] = useState();
   useEffect(() => {
     apidata();
-   
   }, []);
   const apidata = () => {
     axios
@@ -16,12 +19,16 @@ export default function Card() {
         setData(response.data);
       });
   };
-  const Like = (id) => {
-axios.put(`https://61fd0f43f62e220017ce42d5.mockapi.io/comment`)
-.then(()=>{
-  
-}) 
-  } 
+  const Like = (id, status) => {
+    console.log(id, status);
+    axios
+      .put(`https://61fd0f43f62e220017ce42d5.mockapi.io/comment/${id}`, {
+        Like: status,
+      })
+      .then((responce) => {
+        apidata();
+      });
+  };
   const dataDelete = (id) => {
     if (
       window.confirm(
@@ -35,9 +42,24 @@ axios.put(`https://61fd0f43f62e220017ce42d5.mockapi.io/comment`)
         });
     }
   };
-  
+ const addreply = (id) => {
+   setShow(true)
+   setreplyId(id)
+   setTitle("Reply Comments")
+ }
+ const showcomment=()=>{
+  setShow(true)
+  setreplyId()
+  setTitle("Add Comments")
+ }
+const dataedit = () => {
+}
   return (
     <>
+      <button id="btn" onClick={() => showcomment()}>
+        Create Comments
+      </button>
+      {show ? <Popup title={title} replyid={replyid} apidata={apidata} setShow={setShow} /> : null}
       {data.map((comment, key) => {
         return (
           <div key={key}>
@@ -50,12 +72,28 @@ axios.put(`https://61fd0f43f62e220017ce42d5.mockapi.io/comment`)
               <hr />
               <div className="button">
                 {comment.Like ? (
-                  <span className="like"onClick={() => Like(!comment.like)}>Dislike </span>
+                  <span
+                    className="like"
+                    onClick={() => Like(comment?.id, !comment?.Like)}
+                  >
+                    Dislike{" "}
+                  </span>
                 ) : (
-                  <span className="like"onClick={() => Like(!comment.like)}>Like </span>
+                  <span
+                    className="like"
+                    onClick={() => Like(comment?.id, !comment?.Like)}
+                  >
+                    Like{" "}
+                  </span>
                 )}
-                <span className="edit">Edit </span>
-                <span className="reply">Reply </span>
+                <span
+                  className="edit"  onClick={() => dataedit(comment.id)}
+                >
+                  Edit{" "}
+                </span>
+                <span className="reply" onClick={() => addreply(comment.id)}>
+                  Reply{" "}
+                </span>
                 <span className="Delete" onClick={() => dataDelete(comment.id)}>
                   Delete
                 </span>

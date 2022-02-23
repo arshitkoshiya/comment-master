@@ -1,18 +1,29 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
-import axios from "axios"
+import axios from "axios";
 
 export default function Reply(props) {
   const [data, setData] = useState([]);
   useEffect(() => {
     replyapidata();
-   
   }, []);
   const replyapidata = () => {
     axios
-      .get(`https://61fd0f43f62e220017ce42d5.mockapi.io/replycomment?comment-id=${props.id}`)
+      .get(
+        `https://61fd0f43f62e220017ce42d5.mockapi.io/replycomment?commentId=${props.id}`
+      )
       .then((response) => {
         setData(response?.data);
+      });
+  };
+  const Like = (id, status) => {
+    console.log(id, status);
+    axios
+      .put(`https://61fd0f43f62e220017ce42d5.mockapi.io/replycomment/${id}`, {
+        Like: status,
+      })
+      .then((responce) => {
+        replyapidata();
       });
   };
   const replyDelete = (id) => {
@@ -22,13 +33,15 @@ export default function Reply(props) {
       )
     ) {
       axios
-        .delete(`https://61fd0f43f62e220017ce42d5.mockapi.io/replycomment/${id}`)
+        .delete(
+          `https://61fd0f43f62e220017ce42d5.mockapi.io/replycomment/${id}`
+        )
         .then(() => {
           replyapidata();
         });
     }
   };
-  
+
   return (
     <>
       {data.map((comment, key) => {
@@ -43,13 +56,26 @@ export default function Reply(props) {
               <hr />
               <div className="buttons">
                 {comment.Like ? (
-                  <span className="like">Dislike </span>
+                  <span
+                    className="like"
+                    onClick={() => Like(comment?.id, !comment?.Like)}
+                  >
+                    Dislike{" "}
+                  </span>
                 ) : (
-                  <span className="like">Like </span>
+                  <span
+                    className="like"
+                    onClick={() => Like(comment?.id, !comment?.Like)}
+                  >
+                    Like{" "}
+                  </span>
                 )}
                 <span className="edit">Edit </span>
-    
-                <span className="Delete" onClick={() => replyDelete(comment?.id)}>
+
+                <span
+                  className="Delete"
+                  onClick={() => replyDelete(comment?.id)}
+                >
                   Delete
                 </span>
               </div>
