@@ -3,9 +3,12 @@ import "./index.css";
 import axios from "axios";
 import Reply from "../reply";
 import Popup from "../Popup";
+import Edit from "../Edit";
 
 export default function Card() {
   const [show, setShow] = useState(false);
+  const [editshow, setEditshow] = useState(false);
+  const [commentdata, setCommentdata] = useState();
   const [data, setData] = useState([]);
   const [replyid, setreplyId] = useState();
   const [title, setTitle] = useState();
@@ -42,24 +45,44 @@ export default function Card() {
         });
     }
   };
- const addreply = (id) => {
-   setShow(true)
-   setreplyId(id)
-   setTitle("Reply Comments")
- }
- const showcomment=()=>{
-  setShow(true)
-  setreplyId()
-  setTitle("Add Comments")
- }
-const dataedit = () => {
-}
+  const addreply = (id) => {
+    setShow(true);
+    setreplyId(id);
+    setTitle("Reply Comments");
+  };
+  const showcomment = () => {
+    setShow(true);
+    setreplyId();
+    setTitle("Add Comments");
+  };
+  const dataedit = (comment) => {
+    setEditshow(true)
+    setCommentdata(comment)
+    setreplyId()
+    setTitle("Edit Comment")
+  };
   return (
     <>
       <button id="btn" onClick={() => showcomment()}>
         Create Comments
       </button>
-      {show ? <Popup title={title} replyid={replyid} apidata={apidata} setShow={setShow} /> : null}
+      {show ? (
+        <Popup
+          title={title}
+          replyid={replyid}
+          apidata={apidata}
+          setShow={setShow}
+        />
+      ) : null}
+      {editshow ? (
+        <Edit
+          title={title}
+          replyid={replyid}
+          apidata={apidata}
+          setEditshow={setEditshow}
+          commentdata={commentdata}
+        />
+      ) : null}
       {data.map((comment, key) => {
         return (
           <div key={key}>
@@ -86,9 +109,7 @@ const dataedit = () => {
                     Like{" "}
                   </span>
                 )}
-                <span
-                  className="edit"  onClick={() => dataedit(comment.id)}
-                >
+                <span className="edit" onClick={() => dataedit(comment)}>
                   Edit{" "}
                 </span>
                 <span className="reply" onClick={() => addreply(comment.id)}>

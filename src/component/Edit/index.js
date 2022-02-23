@@ -3,19 +3,19 @@ import "./index.css";
 import axios from "axios";
 export default function Popup(props) {
   const [data, setdata] = useState({
-    name: "",
-    textarea: "",
+    name: props.commentdata.name,
+    textarea: props.commentdata.comment,
   });
 
   function submit(e) {
     /* console.log(data); */
-    props.setShow(false);
+    props.setEditshow(false);
     e.preventDefault();
     axios
-      .post(`https://61fd0f43f62e220017ce42d5.mockapi.io/comment`, {
+      .put(`https://61fd0f43f62e220017ce42d5.mockapi.io/comment/${props.commentdata.id}`, {
         name: data.name,
         comment: data.textarea,
-        Like: false,
+        Like: props.commentdata.Like,
       })
       .then((responce) => {
         props.apidata();
@@ -23,10 +23,10 @@ export default function Popup(props) {
   }
   function submitreply(e) {
     /* console.log(data); */
-    props.setShow(false);
+    props.setEditshow(false);
     e.preventDefault();
     axios
-      .post(`https://61fd0f43f62e220017ce42d5.mockapi.io/replycomment`, {
+      .put(`https://61fd0f43f62e220017ce42d5.mockapi.io/replycomment`, {
       commentId : props.replyid,  
       name: data.name,
         comment: data.textarea,
@@ -42,7 +42,7 @@ export default function Popup(props) {
   };
 
   return (
-    <div className="popup" /* onClick={() => props?.setShow(false)} */>
+    <div className="popup" /* onClick={() => props?.setEditshow(false)} */>
       <div className="allcontent">
         <h1>{props.title}</h1>
         <hr />
@@ -73,7 +73,7 @@ export default function Popup(props) {
           <br />
           <br />
           <div className="btn">
-            <button id="closebtn" onClick={() => props?.setShow(false)}>
+            <button id="closebtn" onClick={() => props?.setEditshow(false)}>
               Close
             </button>
             {console.log(props.replyid)}
