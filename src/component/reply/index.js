@@ -12,7 +12,7 @@ export default function Reply(props) {
     axios
       .get(`https://61fd0f43f62e220017ce42d5.mockapi.io/replycomment?comment-id=${props.id}`)
       .then((response) => {
-        setData(response.data);
+        setData(response?.data);
       });
   };
   const replyDelete = (id) => {
@@ -31,15 +31,15 @@ export default function Reply(props) {
   
   return (
     <>
-      {data.map((comment) => {
+      {data.map((comment, key) => {
         return (
-          <>
+          <div key={key}>
             <div className="replycard">
               <div className="name">
-                <h4>{comment.name}</h4>
+                <h4>{comment?.name}</h4>
               </div>
               <hr />
-              <div className="comment">{comment.comment}</div>
+              <div className="comment">{comment?.comment}</div>
               <hr />
               <div className="buttons">
                 {comment.Like ? (
@@ -49,12 +49,12 @@ export default function Reply(props) {
                 )}
                 <span className="edit">Edit </span>
     
-                <span className="Delete" onClick={() => replyDelete(comment.id)}>
+                <span className="Delete" onClick={() => replyDelete(comment?.id)}>
                   Delete
                 </span>
               </div>
             </div>
-          </>
+          </div>
         );
       })}
     </>

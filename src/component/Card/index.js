@@ -16,6 +16,12 @@ export default function Card() {
         setData(response.data);
       });
   };
+  const Like = (id) => {
+axios.put(`https://61fd0f43f62e220017ce42d5.mockapi.io/comment`)
+.then(()=>{
+  
+}) 
+  } 
   const dataDelete = (id) => {
     if (
       window.confirm(
@@ -32,10 +38,10 @@ export default function Card() {
   
   return (
     <>
-      {data.map((comment) => {
+      {data.map((comment, key) => {
         return (
-          <>
-            <div className="card">
+          <div key={key}>
+            <div className="card" key={key}>
               <div className="name">
                 <h4>{comment.name}</h4>
               </div>
@@ -44,9 +50,9 @@ export default function Card() {
               <hr />
               <div className="button">
                 {comment.Like ? (
-                  <span className="like">Dislike </span>
+                  <span className="like"onClick={() => Like(!comment.like)}>Dislike </span>
                 ) : (
-                  <span className="like">Like </span>
+                  <span className="like"onClick={() => Like(!comment.like)}>Like </span>
                 )}
                 <span className="edit">Edit </span>
                 <span className="reply">Reply </span>
@@ -56,7 +62,7 @@ export default function Card() {
               </div>
             </div>
             <Reply id={comment.id} />
-          </>
+          </div>
         );
       })}
     </>
