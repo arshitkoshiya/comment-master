@@ -8,16 +8,8 @@
   padding: 10px;
   position: sticky;
   top: 0%;
+  text-align: center;
 }
 .title {
   width: 100vw;
-}
-#btn {
-  background-color: blue;
-  color: white;
-  border-radius: 5px;
-  float: right;
-  height: auto;
-  padding: 10px;
-cursor: pointer;
 }

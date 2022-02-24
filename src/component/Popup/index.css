@@ -12,11 +12,12 @@
   padding-top: 5%;
 }
 .allcontent {
-  width: 45%;
+  width: 55%;
   background-color: rgb(95, 95, 95);
   margin: auto;
   border-radius: 10px;
   padding: 1%;
+ text-align: center;
 }
 #text {
   width: 40%;

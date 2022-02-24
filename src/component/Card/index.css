@@ -7,11 +7,24 @@
   margin-top: 1%;
 }
 #btn {
+  background-color: blue;
+  color: white;
+  border-radius: 5px;
+  float: right;
+  height: auto;
+  padding: 10px;
+  cursor: pointer;
   float: none;
   margin-top: 1%;
 }
+.addbtn {
+  display: block;
+  text-align: center;
+}
+span {
+  padding-right: 2%;
+}
 h4 {
-  text-align: left;
   padding-left: 10px;
 }
 .comment {
@@ -22,19 +35,15 @@ h4 {
 }
 .edit:hover {
   cursor: pointer;
-  color: blue;
 }
 .like:hover {
   cursor: pointer;
-  color: blue;
 }
 .Delete:hover {
   cursor: pointer;
-  color: blue;
 }
 .reply:hover {
   cursor: pointer;
-  color: blue;
 }
 .replycard {
   border: 2px solid black;

@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import ReplyIcon from "@mui/icons-material/Reply";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import axios from "axios";
 import Popup from "../Popup";
 import Edit from "../Edit";
@@ -25,15 +30,12 @@ export default function Card() {
   };
   const replyapidata = () => {
     axios
-      .get(
-        `https://61fd0f43f62e220017ce42d5.mockapi.io/replycomment`
-      )
+      .get(`https://61fd0f43f62e220017ce42d5.mockapi.io/replycomment`)
       .then((response) => {
         setreplyData(response?.data);
       });
   };
-  const Like = (id, status,table) => {
-    
+  const Like = (id, status, table) => {
     axios
       .put(`https://61fd0f43f62e220017ce42d5.mockapi.io/${table}/${id}`, {
         Like: status,
@@ -43,7 +45,7 @@ export default function Card() {
         replyapidata();
       });
   };
-  const dataDelete = (id,table) => {
+  const dataDelete = (id, table) => {
     if (
       window.confirm(
         `please condorm your id for deleting purpose  "Id" : "${id}"`
@@ -70,62 +72,69 @@ export default function Card() {
   const dataedit = (comment) => {
     setEditshow(true);
     setCommentdata(comment);
-    setTitle("Edit Comment"); 
+    setTitle("Edit Comment");
   };
   function Reply(props) {
-
-    
     return (
       <>
-        {replydata.filter((filterreply) => filterreply.commentId === props.id).map((comment, key) => {
-          return (
-            <div key={key}>
-              <div className="replycard">
-                <div className="name">
-                  <h4>{comment?.name}</h4>
-                </div>
-                <hr />
-                <div className="comment">{comment?.comment}</div>
-                <hr />
-                <div className="buttons">
-                  {comment.Like ? (
-                    <span
-                      className="like"
-                      onClick={() => Like(comment?.id, !comment?.Like,"replycomment")}
-                    >
-                      Dislike{" "}
+        {replydata
+          .filter((filterreply) => filterreply.commentId === props.id)
+          .map((comment, key) => {
+            return (
+              <div key={key}>
+                <div className="replycard">
+                  <div className="name">
+                    <h4>{comment?.name}</h4>
+                  </div>
+                  <hr />
+                  <div className="comment">{comment?.comment}</div>
+                  <hr />
+                  <div className="buttons">
+                    {comment.Like ? (
+                      <span
+                        className="like"
+                        onClick={() =>
+                          Like(comment?.id, !comment?.Like, "replycomment")
+                        }
+                      >
+                        <FavoriteIcon />
+                      </span>
+                    ) : (
+                      <span
+                        className="like"
+                        onClick={() =>
+                          Like(comment?.id, !comment?.Like, "replycomment")
+                        }
+                      >
+                        <FavoriteBorderIcon />
+                      </span>
+                    )}
+                    <span className="edit" onClick={() => dataedit(comment)}>
+                      <ModeEditIcon />
                     </span>
-                  ) : (
+
                     <span
-                      className="like"
-                      onClick={() => Like(comment?.id, !comment?.Like,"replycomment")}
+                      className="Delete"
+                      onClick={() => dataDelete(comment.id, "replycomment")}
                     >
-                      Like{" "}
+                      <DeleteIcon />
                     </span>
-                  )}
-                  <span className="edit" onClick={() => dataedit(comment)}>Edit </span>
-  
-                  <span
-                    className="Delete"
-                    onClick={() => dataDelete(comment.id,"replycomment")}
-                  >
-                    Delete
-                  </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
       </>
     );
   }
-  
+
   return (
     <>
       {show ? (
         <Popup
           title={title}
           replyid={replyid}
+          replyapidata={replyapidata}
           apidata={apidata}
           setShow={setShow}
         />
@@ -139,9 +148,11 @@ export default function Card() {
           commentdata={commentdata}
         />
       ) : null}
-      <button id="btn" onClick={() => showcomment()}>
-        Create Comments
-      </button>
+      <div className="addbtn">
+        <button id="btn" onClick={() => showcomment()}>
+          Create Comments
+        </button>
+      </div>
       {data.map((comment, key) => {
         return (
           <div key={key}>
@@ -156,26 +167,30 @@ export default function Card() {
                 {comment.Like ? (
                   <span
                     className="like"
-                    onClick={() => Like(comment?.id, !comment?.Like,"comment")}
+                    onClick={() => Like(comment?.id, !comment?.Like, "comment")}
                   >
-                    Dislike{" "}
+                    <FavoriteIcon />
                   </span>
                 ) : (
                   <span
                     className="like"
-                    onClick={() => Like(comment?.id, !comment?.Like,"comment")}
+                    onClick={() => Like(comment?.id, !comment?.Like, "comment")}
                   >
-                    Like{" "}
+                    <FavoriteBorderIcon />
                   </span>
                 )}
-                <span className="edit" onClick={() => dataedit(comment)}>
-                  Edit{" "}
-                </span>
+
                 <span className="reply" onClick={() => addreply(comment.id)}>
-                  Reply{" "}
+                  <ReplyIcon />
                 </span>
-                <span className="Delete" onClick={() => dataDelete(comment.id,"comment")}>
-                  Delete
+                <span className="edit" onClick={() => dataedit(comment)}>
+                  <ModeEditIcon />
+                </span>
+                <span
+                  className="Delete"
+                  onClick={() => dataDelete(comment.id, "comment")}
+                >
+                  <DeleteIcon />
                 </span>
               </div>
             </div>

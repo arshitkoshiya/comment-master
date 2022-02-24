@@ -34,6 +34,7 @@ export default function Popup(props) {
       })
       .then((responce) => {
         props.apidata();
+        props.replyapidata();
       });
   }
   const commentdata = (e) => {
