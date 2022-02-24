@@ -16,7 +16,4 @@ h4 {
 .button {
   text-align: left;
 }
-.button:hover {
-  cursor: pointer;
-  color: rgb(192, 0, 10);
-}
+

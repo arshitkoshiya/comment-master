@@ -27,8 +27,8 @@ export default function Popup(props) {
     e.preventDefault();
     axios
       .post(`https://61fd0f43f62e220017ce42d5.mockapi.io/replycomment`, {
-      commentId : props.replyid,  
-      name: data.name,
+        commentId: props.replyid,
+        name: data.name,
         comment: data.textarea,
         Like: false,
       })
@@ -76,7 +76,7 @@ export default function Popup(props) {
             <button id="closebtn" onClick={() => props?.setShow(false)}>
               Close
             </button>
-            {console.log(props.replyid)}
+            
             {props.replyid ? (
               <button
                 id="submitbtn"

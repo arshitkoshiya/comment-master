@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
 import axios from "axios";
-import Reply from "../reply";
 import Popup from "../Popup";
 import Edit from "../Edit";
 
@@ -10,10 +9,12 @@ export default function Card() {
   const [editshow, setEditshow] = useState(false);
   const [commentdata, setCommentdata] = useState();
   const [data, setData] = useState([]);
+  const [replydata, setreplyData] = useState([]);
   const [replyid, setreplyId] = useState();
   const [title, setTitle] = useState();
   useEffect(() => {
     apidata();
+    replyapidata();
   }, []);
   const apidata = () => {
     axios
@@ -22,26 +23,37 @@ export default function Card() {
         setData(response.data);
       });
   };
-  const Like = (id, status) => {
-    console.log(id, status);
+  const replyapidata = () => {
     axios
-      .put(`https://61fd0f43f62e220017ce42d5.mockapi.io/comment/${id}`, {
+      .get(
+        `https://61fd0f43f62e220017ce42d5.mockapi.io/replycomment`
+      )
+      .then((response) => {
+        setreplyData(response?.data);
+      });
+  };
+  const Like = (id, status,table) => {
+    
+    axios
+      .put(`https://61fd0f43f62e220017ce42d5.mockapi.io/${table}/${id}`, {
         Like: status,
       })
       .then((responce) => {
         apidata();
+        replyapidata();
       });
   };
-  const dataDelete = (id) => {
+  const dataDelete = (id,table) => {
     if (
       window.confirm(
         `please condorm your id for deleting purpose  "Id" : "${id}"`
       )
     ) {
       axios
-        .delete(`https://61fd0f43f62e220017ce42d5.mockapi.io/comment/${id}`)
+        .delete(`https://61fd0f43f62e220017ce42d5.mockapi.io/${table}/${id}`)
         .then(() => {
           apidata();
+          replyapidata();
         });
     }
   };
@@ -56,16 +68,86 @@ export default function Card() {
     setTitle("Add Comments");
   };
   const dataedit = (comment) => {
-    setEditshow(true)
-    setCommentdata(comment)
-    setreplyId()
-    setTitle("Edit Comment")
+    setEditshow(true);
+    setCommentdata(comment);
+    setTitle("Edit Comment"); 
   };
+  function Reply(props) {
+
+    
+    /* const Like = (id, status) => {
+      console.log(id, status);
+      axios
+        .put(`https://61fd0f43f62e220017ce42d5.mockapi.io/replycomment/${id}`, {
+          Like: status,
+        })
+        .then((responce) => {
+          replyapidata();
+        });
+    };
+    const replyDelete = (id) => {
+      if (
+        window.confirm(
+          `please condorm your id for deleting purpose  "Id" : "${id}"`
+        )
+      ) {
+        axios
+          .delete(
+            `https://61fd0f43f62e220017ce42d5.mockapi.io/replycomment/${id}`
+          )
+          .then(() => {
+            replyapidata();
+          });
+      }
+    }; */
+  
+    return (
+      <>
+        {replydata.filter((filterreply) => filterreply.commentId === props.id).map((comment, key) => {
+          return (
+            <div key={key}>
+              <div className="replycard">
+                <div className="name">
+                  <h4>{comment?.name}</h4>
+                </div>
+                <hr />
+                <div className="comment">{comment?.comment}</div>
+                <hr />
+                <div className="buttons">
+                  {comment.Like ? (
+                    <span
+                      className="like"
+                      onClick={() => Like(comment?.id, !comment?.Like,"replycomment")}
+                    >
+                      Dislike{" "}
+                    </span>
+                  ) : (
+                    <span
+                      className="like"
+                      onClick={() => Like(comment?.id, !comment?.Like,"replycomment")}
+                    >
+                      Like{" "}
+                    </span>
+                  )}
+                  <span className="edit" onClick={() => dataedit(comment)}>Edit </span>
+  
+                  <span
+                    className="Delete"
+                    onClick={() => dataDelete(comment.id,"replycomment")}
+                  >
+                    Delete
+                  </span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </>
+    );
+  }
+  
   return (
     <>
-      <button id="btn" onClick={() => showcomment()}>
-        Create Comments
-      </button>
       {show ? (
         <Popup
           title={title}
@@ -77,12 +159,15 @@ export default function Card() {
       {editshow ? (
         <Edit
           title={title}
-          replyid={replyid}
+          replyapidata={replyapidata}
           apidata={apidata}
           setEditshow={setEditshow}
           commentdata={commentdata}
         />
       ) : null}
+      <button id="btn" onClick={() => showcomment()}>
+        Create Comments
+      </button>
       {data.map((comment, key) => {
         return (
           <div key={key}>
@@ -97,14 +182,14 @@ export default function Card() {
                 {comment.Like ? (
                   <span
                     className="like"
-                    onClick={() => Like(comment?.id, !comment?.Like)}
+                    onClick={() => Like(comment?.id, !comment?.Like,"comment")}
                   >
                     Dislike{" "}
                   </span>
                 ) : (
                   <span
                     className="like"
-                    onClick={() => Like(comment?.id, !comment?.Like)}
+                    onClick={() => Like(comment?.id, !comment?.Like,"comment")}
                   >
                     Like{" "}
                   </span>
@@ -115,7 +200,7 @@ export default function Card() {
                 <span className="reply" onClick={() => addreply(comment.id)}>
                   Reply{" "}
                 </span>
-                <span className="Delete" onClick={() => dataDelete(comment.id)}>
+                <span className="Delete" onClick={() => dataDelete(comment.id,"comment")}>
                   Delete
                 </span>
               </div>

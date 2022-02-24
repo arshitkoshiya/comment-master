@@ -12,28 +12,31 @@ export default function Popup(props) {
     props.setEditshow(false);
     e.preventDefault();
     axios
-      .put(`https://61fd0f43f62e220017ce42d5.mockapi.io/comment/${props.commentdata.id}`, {
+      .put(
+        `https://61fd0f43f62e220017ce42d5.mockapi.io/comment/${props.commentdata.id}`,
+        {
+          name: data.name,
+          comment: data.textarea,
+          Like: props.commentdata.Like,
+        }
+      )
+      .then((responce) => {
+        props.apidata();
+      });
+  }
+  function submitreply(e) {
+    props.setEditshow(false);
+    e.preventDefault();
+    axios
+      .put(`https://61fd0f43f62e220017ce42d5.mockapi.io/replycomment/${props.commentdata.id}`, {
+        commentId: props.commentdata.commentId,
         name: data.name,
         comment: data.textarea,
         Like: props.commentdata.Like,
       })
       .then((responce) => {
         props.apidata();
-      });
-  }
-  function submitreply(e) {
-    /* console.log(data); */
-    props.setEditshow(false);
-    e.preventDefault();
-    axios
-      .put(`https://61fd0f43f62e220017ce42d5.mockapi.io/replycomment`, {
-      commentId : props.replyid,  
-      name: data.name,
-        comment: data.textarea,
-        Like: false,
-      })
-      .then((responce) => {
-        props.apidata();
+        props.replyapidata();
       });
   }
   const commentdata = (e) => {
@@ -76,8 +79,7 @@ export default function Popup(props) {
             <button id="closebtn" onClick={() => props?.setEditshow(false)}>
               Close
             </button>
-            {console.log(props.replyid)}
-            {props.replyid ? (
+            {props.commentdata?.commentId ? (
               <button
                 id="submitbtn"
                 type="button"
