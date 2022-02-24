@@ -75,32 +75,6 @@ export default function Card() {
   function Reply(props) {
 
     
-    /* const Like = (id, status) => {
-      console.log(id, status);
-      axios
-        .put(`https://61fd0f43f62e220017ce42d5.mockapi.io/replycomment/${id}`, {
-          Like: status,
-        })
-        .then((responce) => {
-          replyapidata();
-        });
-    };
-    const replyDelete = (id) => {
-      if (
-        window.confirm(
-          `please condorm your id for deleting purpose  "Id" : "${id}"`
-        )
-      ) {
-        axios
-          .delete(
-            `https://61fd0f43f62e220017ce42d5.mockapi.io/replycomment/${id}`
-          )
-          .then(() => {
-            replyapidata();
-          });
-      }
-    }; */
-  
     return (
       <>
         {replydata.filter((filterreply) => filterreply.commentId === props.id).map((comment, key) => {
